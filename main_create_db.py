@@ -13,7 +13,7 @@ def main():
     app = Flask ( __name__ )
 
     app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-    db_session.global_init("db/users.db")
+    db_session.global_init("db/orehoff.db")
 
     user = User ()
     user.name = "Пользователь 1"
