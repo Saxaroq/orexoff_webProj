@@ -1,18 +1,16 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 from data import db_session
 from data.nuts import Nut
+from forms.users import RegisterForm, LoginForm
+from data.users import User
+from flask_login import login_user
+import os
+
 
 app = Flask('testapp')
 
-
-# @app.route('/')
-# def index():
-#     conn = db_session.create_session()
-#     conected = conn.query(Nut).first()
-#     mass = conected.mass
-#     price = conected.price
-#     print(mass)
-#     return render_template('brasilski.html', massa=f"{str(mass)}, Г", price=f"{str(price)}")
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 
 
 def nut_info(name):
@@ -66,9 +64,8 @@ def start():
 @app.route("/Orexoff/araxis")
 def arahis():
     data = nut_info('Арахис')
-    price, mass, sale = data[0], data[1], data[2]
-    new_price = round(price / 100 * (100 - sale), 2) - 0.01
-    return render_template("araxis.html", massa=f"{str(mass)}", price=f"{str(new_price)}")
+    price, mass, sale = data[3], data[1], data[2]
+    return render_template("araxis.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
 @app.route("/Orexof/gretz")
@@ -181,9 +178,35 @@ def korzina():
     return render_template("korzina.html")
 
 
-@app.route("/Orexof/login")
+@app.route("/Orexof/login", methods=["GET","POST"])
 def loggs():
-    return render_template("login.html")
+    forma = RegisterForm()
+    if request.method == "POST":
+        db_sess = db_session.create_session()
+        user = User(
+            surname=forma.surname.data,
+            name=forma.name.data,
+            email=forma.email.data,
+            hashed_password=forma.password.data
+        )
+        print(forma.surname.data, forma.name.data, forma.email.data, forma.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect('/')
+    return render_template("login.html", form=forma, title='reg')
+def reggs():
+    registration = False
+    forma = LoginForm()
+    if forma.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.email == forma.email.data).first()
+        if user and user.check_password(forma.password.data):
+            login_user(user)
+            return redirect("/")
+        return render_template('login.html',
+                               message="Неправильный логин или пароль",
+                               form=forma)
+    return render_template('login.html', title='Авторизация', form=forma, registration=registration)
 
 
 if __name__ == '__main__':

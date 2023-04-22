@@ -7,6 +7,22 @@ $color-highlight: #ff3f40;
   box-sizing: border-box;
 }
 
+
+butt3{
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  font-weight: 1000;
+  color: #7BA7AB;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 -3px #7BA7AB inset;
+  transition: 0.2s;
+  cursor:pointer;
+}
+
 html,
 body {
   height: 100%;
@@ -105,9 +121,8 @@ img {
 }
 
 .quantity {
-position: absolute;
-  top: 550px;
-  left: 975px;
+  float:right;
+  align:center;
   padding-right: 20px;
   margin-right: 60px;
 }

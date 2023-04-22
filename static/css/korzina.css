@@ -1,4 +1,19 @@
 
+butt3{
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  font-weight: 1000;
+  color: #7BA7AB;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 -3px #7BA7AB inset;
+  transition: 0.2s;
+  cursor:pointer;
+}
+
 
 .shopping-cart{
 	padding-bottom: 50px;
