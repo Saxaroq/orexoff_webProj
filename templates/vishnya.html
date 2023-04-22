@@ -3,6 +3,7 @@
                   <head>
                     <link rel="stylesheet" href="/static/css/araxis.css">
                     <meta charset="utf-8">
+                    <title>Вишня сушеная</title>
                   </head>
                   <body>
                     <section class="product">
@@ -32,16 +33,12 @@
         <li>Витамин B</li>
         <li>Борится с повышенной кислотностью желудка</li>
       </ul>
-    </div><div class="quantity">
-          <button class="plus-btn" type="button" name="button">
-            <img src="/static/img/butt_plus.png" height="20">
-          </button>
-          <input type="text" name="name" value="1">
-          <button class="minus-btn" type="button" name="button">
-            <img src="/static/img/butt_minus.png" height="20">
-          </button>
-        </div>
-    <button class="buy--btn">В КОРЗИНУ</button>
+    <div class="quantity">
+      <form action="/Orexoff/araxis" method="post">
+        <input type="submit" class="buy--btn" value="в корзину">
+          <input type="text" id="amount" name="amount" value=1>
+      </form>
+      </div>
   </div>
 </section>
 

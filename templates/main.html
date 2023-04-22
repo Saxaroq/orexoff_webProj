@@ -417,7 +417,7 @@ left: 700px;
 
        <div class="col">
          <butt2 type="button" onclick="document.location='/Orexof/korzina'">Корзина <img src="/static/img/butt_korzina.png" weight="20" height="20">
-         <div class="cart__num" id="cart_num">0</div></butt2>
+         <div class="cart__num" id="cart_num">{{ counter }}</div></butt2>
        </div>
        <div class="col">
          <butt3 type="button" onclick="document.location='/Orexof/login'">Вход/Регистрация <img src="/static/img/butt_profile.png" weight="20" height="20"></butt3>
@@ -466,7 +466,7 @@ left: 700px;
         alt="Грецкий орех очищенный без обжарки, 500 г"
       />
     </a>
-    <div class="card__label">-{{grez_mass}}%</div>
+    <div class="card__label">-{{grez_sale}}%</div>
   </div>
   <div class="card__bottom">
     <div class="card__prices">

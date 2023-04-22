@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from data import db_session
 from data.nuts import Nut
 from forms.users import RegisterForm, LoginForm
@@ -12,6 +12,25 @@ app = Flask('testapp')
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+counter = 0
+total = {
+    "Арахис": 0,
+    "Бразильский": 0,
+    "Грецкий": 0,
+    "Кешью": 0,
+    "Миндаль": 0,
+    "Фисташки": 0,
+    "Фундук": 0,
+    "Пекан": 0,
+    "Вишня": 0,
+    "Изюм": 0,
+    "Инжир": 0,
+    "Курага": 0,
+    "Финик": 0,
+    "Чернослив": 0,
+    "Цукаты": 0,
+    "Папайя": 0,
+}
 
 def nut_info(name):
     db_sess = db_session.create_session()
@@ -23,8 +42,9 @@ def nut_info(name):
     return price, mass, sale, price_w_sale
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def start():
+    global counter
     data0 = nut_info('Арахис')
     data1 = nut_info('Грецкий')
     data2 = nut_info('Кешью')
@@ -58,118 +78,214 @@ def start():
                            cher_mass=data13[1], cher_salep=data13[3], cher_price=data13[0], cher_sale=data13[2],
                            cuka_mass=data14[1], cuka_salep=data14[3], cuka_price=data14[0], cuka_sale=data14[2],
                            papa_mass=data15[1], papa_salep=data15[3], papa_price=data15[0], papa_sale=data15[2],
-                           )
+                           counter=counter)
 
 
-@app.route("/Orexoff/araxis")
+@app.route("/Orexoff/araxis", methods=['GET', 'POST'])
 def arahis():
+    global counter
     data = nut_info('Арахис')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Арахис"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("araxis.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/gretz")
+@app.route("/Orexof/gretz", methods=['GET', 'POST'])
 def gretzki():
+    global counter
     data = nut_info('Грецкий')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Грецкий"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("gretsky.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/keshy")
+@app.route("/Orexof/keshy", methods=['GET', 'POST'])
 def keshy():
+    global counter
     data = nut_info('Кешью')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Кешью"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("keshiy.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/mindal")
+@app.route("/Orexof/mindal", methods=['GET', 'POST'])
 def mindal():
+    global counter
     data = nut_info('Миндаль')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Миндаль"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("mindal.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/brazil")
+@app.route("/Orexof/brazil", methods=['GET', 'POST'])
 def brasilski():
+    global counter
     data = nut_info('Бразильский')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Бразильский"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("brasilski.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/fist")
+@app.route("/Orexof/fist", methods=['GET', 'POST'])
 def fistash():
+    global counter
     data = nut_info('Фисташки')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Фисташки"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("fistashki.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/fund")
+@app.route("/Orexof/fund", methods=['GET', 'POST'])
 def funduk():
+    global counter
     data = nut_info('Фундук')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Фундук"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("funduk.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/pekan")
+@app.route("/Orexof/pekan", methods=['GET', 'POST'])
 def pekan():
+    global counter
     data = nut_info('Пекан')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Пекан"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("pekan.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/vishnia")
+@app.route("/Orexof/vishnia", methods=['GET', 'POST'])
 def vishnia():
+    global counter
     data = nut_info('Вишня')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Вишня"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("vishnya.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/izum")
+@app.route("/Orexof/izum", methods=['GET', 'POST'])
 def izum():
+    global counter
     data = nut_info('Изюм')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Изюм"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("izym.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/inzhir")
+@app.route("/Orexof/inzhir", methods=['GET', 'POST'])
 def inzhir():
+    global counter
     data = nut_info('Инжир')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Инжир"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("inzhir.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/kuraga")
+@app.route("/Orexof/kuraga", methods=['GET', 'POST'])
 def kuraga():
+    global counter
     data = nut_info('Курага')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Курага"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("kuraga.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/finik")
+@app.route("/Orexof/finik", methods=['GET', 'POST'])
 def finik():
+    global counter
     data = nut_info('Финик')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Финик"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("finik.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/chernosliv")
+@app.route("/Orexof/chernosliv", methods=['GET', 'POST'])
 def cherno():
+    global counter
     data = nut_info('Чернослив')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Чернослив"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("chernosliv.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/cukati")
+@app.route("/Orexof/cukati", methods=['GET', 'POST'])
 def cukati():
+    global counter
     data = nut_info('Цукаты')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Цукаты"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("cukati.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
-@app.route("/Orexof/papya")
+@app.route("/Orexof/papya", methods=['GET', 'POST'])
 def papya():
+    global counter
     data = nut_info('Папайя')
     price, mass, sale = data[3], data[1], data[2]
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        total["Папайя"] += int(amount)
+        counter += int(amount)
+        return redirect('/')
     return render_template("papya.html", massa=f"{str(mass)}", price=f"{str(price)}")
 
 
@@ -211,4 +327,4 @@ def reggs():
 
 if __name__ == '__main__':
     db_session.global_init("db/orehoff.db")
-    app.run()
+    app.run(debug=True)
