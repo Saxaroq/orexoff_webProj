@@ -20,4 +20,6 @@ class User(SqlAlchemyBase, UserMixin):
 
     def check_password(self, password):
         print("checking password:", self.hashed_password, password)
-        return check_password_hash(self.hashed_password, password)
+        if self.hashed_password == password:
+            return True
+        return False

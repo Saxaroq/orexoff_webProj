@@ -6,7 +6,6 @@ from data.users import User
 from flask_login import login_user
 import os
 
-
 app = Flask('testapp')
 
 SECRET_KEY = os.urandom(32)
@@ -31,6 +30,7 @@ total = {
     "Цукаты": 0,
     "Папайя": 0,
 }
+
 
 def nut_info(name):
     db_sess = db_session.create_session()
@@ -291,11 +291,56 @@ def papya():
 
 @app.route("/Orexof/korzina")
 def korzina():
-    return render_template("korzina.html")
+    global counter, total
+    data0 = nut_info('Арахис')
+    data1 = nut_info('Грецкий')
+    data2 = nut_info('Кешью')
+    data3 = nut_info('Миндаль')
+    data4 = nut_info('Бразильский')
+    data5 = nut_info('Фисташки')
+    data6 = nut_info('Фундук')
+    data7 = nut_info('Пекан')
+    data8 = nut_info('Вишня')
+    data9 = nut_info('Изюм')
+    data10 = nut_info('Инжир')
+    data11 = nut_info('Курага')
+    data12 = nut_info('Финик')
+    data13 = nut_info('Чернослив')
+    data14 = nut_info('Цукаты')
+    data15 = nut_info('Папайя')
+    totals = data0[0]*total['Арахис'] + data1[0]*total['Грецкий'] + data2[0]*total['Кешью'] + data3[0]*total['Миндаль']\
+             + data4[0]*total['Бразильский'] + data5[0]*total['Фисташки'] + data6[0]*total['Фундук']\
+             + data7[0]*total['Пекан'] + data8[0]*total['Вишня'] + data9[0]*total['Изюм'] + data10[0]*total['Инжир']\
+             + data11[0]*total['Курага'] + data12[0]*total['Финик'] + data13[0]*total['Чернослив']\
+             + data14[0]*total['Цукаты'] + data15[0]*total['Папайя']
+    total_ws = data0[3]*total['Арахис'] + data1[3]*total['Грецкий'] + data2[3]*total['Кешью'] + data3[3]*total['Миндаль']\
+             + data4[3]*total['Бразильский'] + data5[3]*total['Фисташки'] + data6[3]*total['Фундук']\
+             + data7[3]*total['Пекан'] + data8[3]*total['Вишня'] + data9[3]*total['Изюм'] + data10[3]*total['Инжир']\
+             + data11[3]*total['Курага'] + data12[3]*total['Финик'] + data13[3]*total['Чернослив']\
+             + data14[3]*total['Цукаты'] + data15[3]*total['Папайя']
+    sales = totals - total_ws
+    return render_template("korzina.html",
+                           arah_mass=data0[1], ar_am=total['Арахис'], arah_price=data0[0]*total['Арахис'],
+                           grez_mass=data1[1], gr_am=total['Грецкий'], grez_price=data1[0]*total['Грецкий'],
+                           kesh_mass=data2[1], ks_am=total['Кешью'], kesh_price=data2[0*total['Кешью']],
+                           mind_mass=data3[1], mi_am=total['Миндаль'], mind_price=data3[0]*total['Миндаль'],
+                           braz_mass=data4[1], br_am=total['Бразильский'], braz_price=data4[0]*total['Бразильский'],
+                           fist_mass=data5[1], fs_am=total['Фисташки'], fist_price=data5[0]*total['Фисташки'],
+                           fund_mass=data6[1], fu_am=total['Фундук'], fund_price=data6[0]*total['Фундук'],
+                           peka_mass=data7[1], pe_am=total['Пекан'], peka_price=data7[0]*total['Пекан'],
+                           vish_mass=data8[1], vi_am=total['Вишня'], vish_price=data8[0]*total['Вишня'],
+                           izum_mass=data9[1], iz_am=total['Изюм'], izum_price=data9[0]*total['Изюм'],
+                           inzh_mass=data10[1], in_am=total['Инжир'], inzh_price=data10[0]*total['Инжир'],
+                           kura_mass=data11[1], ku_am=total['Курага'], kura_price=data11[0]*total['Курага'],
+                           fini_mass=data12[1], fi_am=total['Финик'], fini_price=data12[0]*total['Финик'],
+                           cher_mass=data13[1], ch_am=total['Чернослив'], cher_price=data13[0]*total['Чернослив'],
+                           cuka_mass=data14[1], cu_am=total['Цукаты'], cuka_price=data14[0]*total['Цукаты'],
+                           papa_mass=data15[1], pa_am=total['Папайя'], papa_price=data15[0]*total['Папайя'],
+                           counter=counter, total=round(totals, 2), sale=round(sales, 2), total_s=round(total_ws, 2))
 
 
-@app.route("/Orexof/login", methods=["GET","POST"])
-def loggs():
+@app.route("/Orexof/register", methods=["GET", "POST"])
+def reggs():
     forma = RegisterForm()
     if request.method == "POST":
         db_sess = db_session.create_session()
@@ -305,19 +350,22 @@ def loggs():
             email=forma.email.data,
             hashed_password=forma.password.data
         )
-        print(forma.surname.data, forma.name.data, forma.email.data, forma.password.data)
         db_sess.add(user)
         db_sess.commit()
         return redirect('/')
-    return render_template("login.html", form=forma, title='reg')
-def reggs():
+    return render_template("register.html", form=forma, title='reg')
+
+
+@app.route("/Orexof/login", methods=["GET", "POST"])
+def logges():
     registration = False
     forma = LoginForm()
-    if forma.validate_on_submit():
+    print(0)
+    if forma.validate():
+        print(1)
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == forma.email.data).first()
         if user and user.check_password(forma.password.data):
-            login_user(user)
             return redirect("/")
         return render_template('login.html',
                                message="Неправильный логин или пароль",
