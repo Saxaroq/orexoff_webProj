@@ -31,20 +31,7 @@ total = {
     "Папайя": 0,
 }
 
-
-def nut_info(name):
-    db_sess = db_session.create_session()
-    conected = db_sess.query(Nut).filter(Nut.name == str(name)).first()
-    price = conected.price
-    mass = conected.mass
-    sale = conected.discount_perc
-    price_w_sale = round(price / 100 * (100 - sale) - 0.01, 2)
-    return price, mass, sale, price_w_sale
-
-
-@app.route("/", methods=['GET', 'POST'])
-def start():
-    global counter
+def all_info():
     data0 = nut_info('Арахис')
     data1 = nut_info('Грецкий')
     data2 = nut_info('Кешью')
@@ -61,23 +48,41 @@ def start():
     data13 = nut_info('Чернослив')
     data14 = nut_info('Цукаты')
     data15 = nut_info('Папайя')
+    return data0, data2, data3, data4, data5, data6, data7, data8, data9, data10, data1, data11, data12, data13,\
+        data14, data15,
+
+
+def nut_info(name):
+    db_sess = db_session.create_session()
+    conected = db_sess.query(Nut).filter(Nut.name == str(name)).first()
+    price = conected.price
+    mass = conected.mass
+    sale = conected.discount_perc
+    price_w_sale = round(price / 100 * (100 - sale) - 0.01, 2)
+    return price, mass, sale, price_w_sale
+
+
+@app.route("/", methods=['GET', 'POST'])
+def start():
+    global counter
+    res = all_info()
     return render_template("main.html",
-                           arah_mass=data0[1], arah_salep=data0[3], arah_price=data0[0], arah_sale=data0[2],
-                           grez_mass=data1[1], grez_salep=data1[3], grez_price=data1[0], grez_sale=data1[2],
-                           kesh_mass=data2[1], kesh_salep=data2[3], kesh_price=data2[0], kesh_sale=data2[2],
-                           mind_mass=data3[1], mind_salep=data3[3], mind_price=data3[0], mind_sale=data3[2],
-                           braz_mass=data4[1], braz_salep=data4[3], braz_price=data4[0], braz_sale=data4[2],
-                           fist_mass=data5[1], fist_salep=data5[3], fist_price=data5[0], fist_sale=data5[2],
-                           fund_mass=data6[1], fund_salep=data6[3], fund_price=data6[0], fund_sale=data6[2],
-                           peka_mass=data7[1], peka_salep=data7[3], peka_price=data7[0], peka_sale=data7[2],
-                           vish_mass=data8[1], vish_salep=data8[3], vish_price=data8[0], vish_sale=data8[2],
-                           izum_mass=data9[1], izum_salep=data9[3], izum_price=data9[0], izum_sale=data9[2],
-                           inzh_mass=data10[1], inzh_salep=data10[3], inzh_price=data10[0], inzh_sale=data10[2],
-                           kura_mass=data11[1], kura_salep=data11[3], kura_price=data11[0], kura_sale=data11[2],
-                           fini_mass=data12[1], fini_salep=data12[3], fini_price=data12[0], fini_sale=data12[2],
-                           cher_mass=data13[1], cher_salep=data13[3], cher_price=data13[0], cher_sale=data13[2],
-                           cuka_mass=data14[1], cuka_salep=data14[3], cuka_price=data14[0], cuka_sale=data14[2],
-                           papa_mass=data15[1], papa_salep=data15[3], papa_price=data15[0], papa_sale=data15[2],
+                           arah_mass=res[0][1], arah_salep=res[0][3], arah_price=res[0][0], arah_sale=res[0][2],
+                           grez_mass=res[1][1], grez_salep=res[1][3], grez_price=res[1][0], grez_sale=res[1][2],
+                           kesh_mass=res[2][1], kesh_salep=res[2][3], kesh_price=res[2][0], kesh_sale=res[2][2],
+                           mind_mass=res[3][1], mind_salep=res[3][3], mind_price=res[3][0], mind_sale=res[3][2],
+                           braz_mass=res[4][1], braz_salep=res[4][3], braz_price=res[4][0], braz_sale=res[4][2],
+                           fist_mass=res[5][1], fist_salep=res[5][3], fist_price=res[5][0], fist_sale=res[5][2],
+                           fund_mass=res[6][1], fund_salep=res[6][3], fund_price=res[6][0], fund_sale=res[6][2],
+                           peka_mass=res[7][1], peka_salep=res[7][3], peka_price=res[7][0], peka_sale=res[7][2],
+                           vish_mass=res[8][1], vish_salep=res[8][3], vish_price=res[8][0], vish_sale=res[8][2],
+                           izum_mass=res[9][1], izum_salep=res[9][3], izum_price=res[9][0], izum_sale=res[9][2],
+                           inzh_mass=res[10][1], inzh_salep=res[10][3], inzh_price=res[10][0], inzh_sale=res[10][2],
+                           kura_mass=res[11][1], kura_salep=res[11][3], kura_price=res[11][0], kura_sale=res[11][2],
+                           fini_mass=res[12][1], fini_salep=res[12][3], fini_price=res[12][0], fini_sale=res[12][2],
+                           cher_mass=res[13][1], cher_salep=res[13][3], cher_price=res[13][0], cher_sale=res[13][2],
+                           cuka_mass=res[14][1], cuka_salep=res[14][3], cuka_price=res[14][0], cuka_sale=res[14][2],
+                           papa_mass=res[15][1], papa_salep=res[15][3], papa_price=res[15][0], papa_sale=res[15][2],
                            counter=counter)
 
 
